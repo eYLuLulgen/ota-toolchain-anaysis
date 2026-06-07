@@ -1,10 +1,10 @@
-#  OTA Firmware Araç Zinciri ve Statik İkili (Binary) Analiz Raporu
+# 🔍 OTA Firmware Araç Zinciri ve Statik İkili (Binary) Analiz Raporu
 
 Bu depo, BIL304 İşletim Sistemleri dersi kapsamında gerçekleştirilen `new-firmware.z1` dosyasının statik ikili analiz sonuçlarını içermektedir. Analiz kapsamında, Contiki-NG mimarisi altındaki firmware'in donanım özellikleri, bellek yerleşimi ve gömülü sembol referansları incelenmiştir.
 
 ---
 
-## 1. Analiz Ortamı ve Kullanılan Araçlar
+##  1. Analiz Ortamı ve Kullanılan Araçlar
 * **Ana Bilgisayar Ortamı:** Windows Subsystem for Linux (WSL2) - Ubuntu LTS
 * **Kullanılan Analiz Araçları:** GNU Binutils (`readelf`, `strings`)
 * **Analiz Edilen Dosya:** `new-firmware.z1`
@@ -53,4 +53,4 @@ Sembol tablosu incelendiğinde dosya içinde **1143 adet bağımsız sembol** te
 
 ##  5. Güvenlik ve Dayanıklılık (Robustness) Değerlendirmesi
 * **Bilgi Sızıntısı Riski:** `strings` komutu koşturulduğunda, binary içerisinden `App: Received request` gibi çok sayıda geliştirici logu ve modül etiketi okunabilmektedir. Bu durum tersine mühendislik faaliyetlerini kolaylaştırarak ağ mimarisinin dışarıya sızmasına neden olabilir.
-* **OTA Paket Bütünlüğü:** Ağ katmanında parçalanmış paketleri toplamak için ayrılan büyük bellek alanı (`frag_buf`), kötü n
+* **OTA Paket Bütünlüğü:** Ağ katmanında parçalanmış paketleri toplamak için ayrılan büyük bellek alanı (`frag_buf`), kötü niyetli paket enjeksiyonlarına karşı hassastır. Projenin simülasyon bacağında bu güvenlik açığı, gelen firmware imajlarının bütünlüğünü doğrulamak üzere sisteme **CRC32 hash kontrolü** entegre edilerek çözülmüştür. Yazılım, hash doğrulamasından geçmeyen paketleri Slot B alanına kabul etmeyerek sistemin siber saldırılardan korunmasını sağlar.
